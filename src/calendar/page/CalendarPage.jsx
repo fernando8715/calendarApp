@@ -12,7 +12,7 @@ const events = [{
   title: 'cumpleaños esposa',
   note: 'reservar una cena',
   start: new Date(),
-  end: addHours( new Date(), 2),
+  end: addHours(new Date(), 2),
   bgColor: '#fafafa',
   user: {
     id: 123,
@@ -21,6 +21,23 @@ const events = [{
 }]
 
 export const CalendarPage = () => {
+
+  const eventStyleGetter = (event, start, end, isSelected) => {
+    console.log({event, start, end, isSelected});
+
+    const style = {
+      backgroudColor: '#347CF7',
+      borderRadius: '8px',
+      opacity: 0.8,
+      color: 'white'
+    }
+
+    return {
+      style
+    }
+
+  }
+
   return (
     <>
       <Navbar />
@@ -32,7 +49,8 @@ export const CalendarPage = () => {
         startAccessor="start"
         endAccessor="end"
         style={{ height: 'calc(100vh - 80px)' }}
-        messages={ getMessagesES() }
+        messages={getMessagesES()}
+        eventPropGetter={eventStyleGetter}
       />
 
     </>
