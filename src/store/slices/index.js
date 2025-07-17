@@ -1,2 +1,2 @@
-export * from './calendarSlice'
-export * from './uiSlices'
+export * from './calendarSlice';
+export * from './uiSlices';
