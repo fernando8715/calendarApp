@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import Modal from 'react-modal';
 import DatePicker, { registerLocale } from 'react-datepicker';
@@ -9,7 +9,7 @@ import Swal from 'sweetalert2';
 import { addHours, differenceInSeconds } from 'date-fns';
 import { es } from 'date-fns/locale/es';
 
-import { useUiStore } from '../../hooks';
+import { useCalendarStore, useUiStore } from '../../hooks';
 
 
 registerLocale('es', es)
@@ -34,6 +34,7 @@ export const CalendarModal = () => {
 
     const { isDateModalOpen, closeDateModal } = useUiStore();
     const [formSubmitted, setIsFormSubmitted] = useState(false);
+    const { activeEvent } = useCalendarStore();
 
     const [formValues, setFormValues] = useState({
         title: 'Fernando',
@@ -47,7 +48,15 @@ export const CalendarModal = () => {
 
         if (formValues.title.length <= 0) return 'is-invalid'
 
-    }, [formValues.title, formSubmitted])
+    }, [formValues.title, formSubmitted]);
+
+    useEffect(() => {
+        if(activeEvent !== null) {
+            setFormValues({...activeEvent});
+        }
+
+    }, [activeEvent])
+
 
 
     const onCloseModal = () => {
