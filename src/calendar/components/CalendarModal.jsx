@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 import Modal from 'react-modal';
 import DatePicker, { registerLocale } from 'react-datepicker';
@@ -6,9 +6,11 @@ import 'react-datepicker/dist/react-datepicker.css';
 
 import Swal from 'sweetalert2';
 
-
 import { addHours, differenceInSeconds } from 'date-fns';
 import { es } from 'date-fns/locale/es';
+
+import { useCalendarStore, useUiStore } from '../../hooks';
+
 
 registerLocale('es', es)
 
@@ -26,10 +28,13 @@ const customStyles = {
 
 Modal.setAppElement('#root');
 
+
+
 export const CalendarModal = () => {
 
-    const [isModalOpen, setIsModalOpen] = useState(true);
+    const { isDateModalOpen, closeDateModal } = useUiStore();
     const [formSubmitted, setIsFormSubmitted] = useState(false);
+    const { activeEvent } = useCalendarStore();
 
     const [formValues, setFormValues] = useState({
         title: 'Fernando',
@@ -38,19 +43,24 @@ export const CalendarModal = () => {
         end: addHours(new Date(), 2)
     });
 
-    const [startDate, setStartDate] = useState(new Date());
+    const titleClass = useMemo(() => {
+        if (!formSubmitted) return '';
 
-    const titleClass = useMemo(() =>{
-        if(!formSubmitted) return '';
+        if (formValues.title.length <= 0) return 'is-invalid'
 
-        if(formValues.title.length <= 0) return 'is-invalid'
+    }, [formValues.title, formSubmitted]);
 
-    }, [formValues.title, formSubmitted])
+    useEffect(() => {
+        if(activeEvent !== null) {
+            setFormValues({...activeEvent});
+        }
+
+    }, [activeEvent])
+
 
 
     const onCloseModal = () => {
-        setIsModalOpen(false);
-        console.log('cerrando modal');
+        closeDateModal();
     }
 
     const onInputChange = ({ target }) => {
@@ -88,7 +98,7 @@ export const CalendarModal = () => {
     return (
         <div>
             <Modal
-                isOpen={isModalOpen}
+                isOpen={isDateModalOpen}
                 onRequestClose={onCloseModal}
                 style={customStyles}
                 closeTimeoutMS={2000}
