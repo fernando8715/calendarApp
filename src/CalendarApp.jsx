@@ -1,5 +1,15 @@
 import { BrowserRouter } from "react-router"
 import { AppRouter } from "./router/AppRouter"
+<<<<<<< HEAD
+
+
+export const CalendarApp = () => {
+  
+  return (
+    <BrowserRouter>
+      <AppRouter />
+    </BrowserRouter>
+=======
 import { Provider } from "react-redux"
 import { store } from "./store"
 
@@ -12,5 +22,6 @@ export const CalendarApp = () => {
         <AppRouter />
       </BrowserRouter>
     </Provider>
+>>>>>>> portatil
   )
 }
