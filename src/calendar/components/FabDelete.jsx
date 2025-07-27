@@ -1,8 +1,9 @@
-import { useCalendarStore } from "../../hooks"
+import { useCalendarStore, useUiStore } from "../../hooks"
 
 export const FabDelete = () => {
 
     const { startDeletingEvent, hasActiveEvent } = useCalendarStore()
+    const { isDateModalOpen } = useUiStore()
 
     const handleDeleteNote = () => {
         startDeletingEvent();
@@ -11,7 +12,7 @@ export const FabDelete = () => {
     return (
         <button className="btn btn-danger fab-delete"
             style={{
-                display: hasActiveEvent ? '' : 'none'
+                display: (hasActiveEvent && !isDateModalOpen) ? '' : 'none'
             }}
             onClick={handleDeleteNote}
         >
