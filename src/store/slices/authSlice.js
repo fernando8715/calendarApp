@@ -13,7 +13,13 @@ export const authSlice = createSlice({
       state.user = {};
       state.errorMessage = undefined;
     },
+    onLoging: (state, {payload})=> {
+        state.status = 'authenticated';
+        state.user = payload;
+        state.errorMessage = undefined;
+    }
+
   },
 })
 //Action creators are generated for each case reducer function//
-export const { increment } = authSlice.actions;
+export const { checking, onLoging } = authSlice.actions;
